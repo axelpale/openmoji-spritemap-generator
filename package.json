@@ -1,5 +1,5 @@
 {
-  "name": "openmoji-pickerpalette",
+  "name": "openmoji-spritemap-generator",
   "version": "0.0.1",
   "description": "Time series logger and analyzer",
   "main": "merge.js",
