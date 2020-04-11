@@ -4,6 +4,8 @@ This lib generates merged spritemaps from OpenMoji emojis. A spritemap is an ima
 
 In addition to spritemaps, this lib generates a JSON data file that contains emoji positions in the spritemap. For quick development, the lib also generates an HTML image map snippet where the sprite map is represented by using map and area HTML tags.
 
+![Smileys Emotion](doc/smileys-emotion.png) ![Animals Nature](doc/animals-nature.png)
+
 ## Usage
 
 There is two intended ways to use the generator. The first is by installing it as a Node.js module into your project and commanding it via API. The second way is more standalone, and allows you to generate spritemaps without a host project.
@@ -75,7 +77,7 @@ Generates a spritemap image, a spritemap data JSON, and an image map HTML snippe
 
 The configuration object `config` can take following options.
 
-- emojis: An array of emoji objects originating from openmoji.json.
+- emojis: An array of emoji objects originating from openmoji.json. The order defines the order in the output.
 - name: A string. An unique name for this emoji set. Affects html classes and console output.
 - emojiDir: A directory path to emoji images, downloaded from OpenMoji.
 - targetImagePath: A file path where to save the spritemap image.
