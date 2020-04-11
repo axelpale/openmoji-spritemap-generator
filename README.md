@@ -21,6 +21,12 @@ Third, install dependencies and run the merging.
 
 Finally, see the merged spritemaps and image map HTML under `spritemaps/`.
 
+## Known problems
+
+### Bus error: 10
+
+Happens on MacOS when there is more than 200 emojis to be merged per image.
+
 ## Licence
 
 The generated spritemaps are licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The source code is licensed under [MIT License](LICENSE).
