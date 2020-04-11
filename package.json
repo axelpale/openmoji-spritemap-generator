@@ -1,8 +1,8 @@
 {
   "name": "openmoji-spritemap-generator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Time series logger and analyzer",
-  "main": "merge.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/axelpale/sensibus.git"

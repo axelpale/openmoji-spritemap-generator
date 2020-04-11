@@ -1,6 +1,6 @@
 const mojis = require('./openmoji.json')
 const asyn = require('async')
-const merge = require('./merge')
+const merge = require('./index')
 const path = require('path')
 
 // Filter out those with long hexcode, like skin tones.
