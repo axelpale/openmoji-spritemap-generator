@@ -4,7 +4,7 @@ This lib generates merged spritemaps from OpenMoji emojis. A spritemap is an ima
 
 In addition to spritemaps, this lib generates a JSON data file that contains emoji positions in the spritemap. For quick development, the lib also generates an HTML image map snippet where the sprite map is represented by using map and area HTML tags.
 
-![Smileys Emotion](doc/smileys-emotion.png) ![Animals Nature](doc/animals-nature.png)
+![Smileys Emotion](doc/smileys-emotion.png)&nbsp; &nbsp;![Animals Nature](doc/animals-nature.png)
 
 ## Usage
 
