@@ -1,92 +1,131 @@
 const sharp = require('sharp')
-const mojis = require('./openmoji.json')
 const imagemap = require('./imagemap')
-const asyn = require('async')
 const path = require('path')
 const fs = require('fs')
 
+// Disabling sharp cache might help to avoid "Bus error: 10"
+// when the number of images is high. This does only help, not prevent.
 sharp.cache(false)
 
-const srcDir = path.resolve(__dirname, 'openmoji-72x72-color')
-const tgtDir = path.resolve(__dirname, 'spritemaps')
-const size = 72
+module.exports = (config, callback) => {
+  // Define default config
+  config = Object.assign({
+    // The selected set of emojis from openmoji.json
+    emojis: [],
+    // Source of emoji images, named by hexcode
+    emojiDir: path.resolve(__dirname, 'openmoji-72x72-color'),
+    // Where to store the resulting spritemap
+    targetImagePath: path.resolve(__dirname, 'spritemaps', 'emojis.png'),
+    // Where to store the resulting image map html
+    targetHtmlPath: path.resolve(__dirname, 'spritemaps', 'emojis.html'),
+    // Where to store the resulting map data json (for custom usage)
+    targetJsonPath: path.resolve(__dirname, 'spritemaps', 'emojis.json'),
+    // Pixel width=height of emoji on the spritemap
+    emojiSize: 72,
+    // Dimensions of the spritemap
+    columns: 10,
+    rows: 16,
+    // Background color. Transparent by default.
+    backgroundColor: '#FFFFFF00',
+    // Unique name for this emoji set. Affects console output and html classes.
+    name: 'default-group'
+  }, config)
 
-// Filter out those with long hexcode, like skin tones.
-const shortMojis = mojis.filter(moji => moji.hexcode.length <= 5)
+  // All given emojis.
+  const fullGroup = config.emojis
 
-// Group by group name
-const mojiGroups = shortMojis.reduce((acc, moji) => {
-  const groupName = moji.group
-  if (!acc[groupName]) {
-    acc[groupName] = []
-  }
-  acc[groupName].push(moji)
-  return acc
-}, {})
-
-// Remove
-
-asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
-  const mojiGroup = mojiGroups[groupName]
-
-  const limitedGroup = mojiGroup.slice(0, 160)
-
-  const composition = limitedGroup.map((moji, i) => {
+  // Create file path for each.
+  const fullPathGroup = fullGroup.map((moji, i) => {
     return {
       moji: moji, // For image map generation
-      input: path.join(srcDir, moji.hexcode + '.png'),
-      top: size * Math.floor(i / 10),
-      left: size * (i % 10)
+      input: path.join(config.emojiDir, moji.hexcode + '.png')
     }
   })
 
-  // Skip non-existent files.
-  asyn.filter(composition, (cmoji, callback) => {
-    const p = cmoji.input
-    fs.access(p, fs.constants.R_OK, (err) => {
-      if (err) {
-        console.log(`${p} is not readable`)
-      }
-      return callback(null, !err)
-    })
-  }, (err, foundComposition) => {
-    if (err) {
-      return next(err)
+  // Skip emojis when no image is available
+  const accessableGroup = fullPathGroup.filter(pmoji => {
+    try {
+      fs.accessSync(pmoji.input, fs.constants.R_OK)
+      return true
+    } catch (err) {
+      console.log('Image not found: ' + pmoji.input)
+      return false
     }
+  })
 
-    const n = foundComposition.length
-    const m = mojiGroup.length
+  // Limit the number of emojis to fit the spritemap dimensions.
+  // Too many emojis cause sharp to stack extra emojis in messy manner.
+  const limitedGroup = accessableGroup.slice(0, config.columns * config.rows)
 
-    console.log(`Merging ${n}/${m} images of ${groupName}...`)
+  // Convert emojis to a sharp composition.
+  const composition = limitedGroup.map((pmoji, i) => {
+    return {
+      moji: pmoji.moji, // Original emoji data for image map generation.
+      input: pmoji.input,
+      top: config.emojiSize * Math.floor(i / config.columns),
+      left: config.emojiSize * (i % config.columns),
+      index: i
+    }
+  })
 
-    const tgtPath = path.join(tgtDir, groupName + '.png')
-    sharp('background.png')
-      .composite(foundComposition)
-      .toFile(tgtPath, (err, info) => {
-        if (err) {
-          return next(err)
+  // Note how many emojis were missing.
+  const n = composition.length
+  const m = fullGroup.length
+  console.log(`Merging ${n}/${m} images...`)
+
+  const width = config.emojiSize * config.columns
+  const height = config.emojiSize * config.rows
+
+  sharp({
+    create: {
+      width: width,
+      height: height,
+      channels: 4,
+      background: config.backgroundColor
+    }
+  }).composite(composition)
+    .toFile(config.targetImagePath, (err, info) => {
+      if (err) {
+        return callback(err)
+      }
+      console.log('Finished merging ' + config.name + '.')
+
+      // Generate a boilerplate html image map
+      console.log('Generating HTML image map...')
+      const imagemapHtml = imagemap(composition, {
+        groupName: config.name,
+        size: config.emojiSize
+      })
+      fs.writeFile(config.targetHtmlPath, imagemapHtml, (errw) => {
+        if (errw) {
+          return callback(err)
         }
-        console.log('Finished merging ' + groupName)
 
-        // Generate a boilerplate html image map
-        console.log('Generating image map for ' + groupName)
-        const imagemapPath = path.join(tgtDir, groupName + '.html')
-        const imagemapHtml = imagemap(foundComposition, {
-          groupName: groupName,
-          size: size
-        })
-        fs.writeFile(imagemapPath, imagemapHtml, (errw) => {
-          if (errw) {
-            return next(err)
+        // Generate a data file for custom usage
+        console.log('Generating JSON map data...')
+        const outputObj = {
+          name: config.name,
+          width: width,
+          height: height,
+          emojiSize: config.emojiSize,
+          emojis: composition.map(cmoji => {
+            return {
+              emoji: cmoji.moji,
+              top: cmoji.top,
+              left: cmoji.left,
+              index: cmoji.index
+            }
+          })
+        }
+        const outputJson = JSON.stringify(outputObj, null, '  ')
+        fs.writeFile(config.targetJsonPath, outputJson, (errf) => {
+          if (errf) {
+            return callback(err)
           }
-          return next()
+
+          // All success.
+          return callback()
         })
       })
-  })
-}, (err) => {
-  if (err) {
-    console.error(err)
-  } else {
-    console.log('Finished successfully.')
-  }
-})
+    })
+}

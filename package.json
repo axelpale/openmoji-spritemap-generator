@@ -2,13 +2,13 @@
   "name": "openmoji-pickerpalette",
   "version": "0.0.1",
   "description": "Time series logger and analyzer",
-  "main": "index.html",
+  "main": "merge.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/axelpale/sensibus.git"
   },
   "scripts": {
-    "start": "node merge.js",
+    "start": "node run.js",
     "lint": "standard '**/*.js' && echo OK",
     "test": "npm run lint"
   },
