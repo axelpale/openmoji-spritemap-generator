@@ -1,0 +1,27 @@
+{
+  "name": "openmoji-pickerpalette",
+  "version": "0.0.1",
+  "description": "Time series logger and analyzer",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/axelpale/sensibus.git"
+  },
+  "scripts": {
+    "start": "node merge.js",
+    "lint": "standard '**/*.js' && echo OK",
+    "test": "npm run lint"
+  },
+  "author": {
+    "name": "Akseli Palén",
+    "email": "akseli.palen@gmail.com"
+  },
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "standard": "*"
+  },
+  "dependencies": {
+    "async": "^3.2.0",
+    "sharp": "^0.25.2"
+  }
+}
