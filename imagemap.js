@@ -11,7 +11,7 @@ module.exports = (composition, opts) => {
     const r = l + size
     const b = t + size
     const coords = l + ',' + t + ',' + r + ',' + b
-    return acc + '<area ' +
+    return acc + '  <area ' +
       'shape="rect" ' +
       'coords="' + coords + '" ' +
       'id="openmoji-sprite-' + hexcode + '" ' +
