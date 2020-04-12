@@ -1,11 +1,18 @@
 {
   "name": "openmoji-spritemap-generator",
   "version": "1.0.0",
-  "description": "Time series logger and analyzer",
+  "description": "Generate sprite sheets from OpenMoji emojis",
+  "keywords": [
+    "sprite",
+    "spritesheet",
+    "emoji",
+    "emoji-picker",
+    "unicode"
+  ],
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/axelpale/sensibus.git"
+    "url": "git://github.com/axelpale/openmoji-spritemap-generator.git"
   },
   "scripts": {
     "start": "node run.js",
@@ -16,7 +23,7 @@
     "name": "Akseli Palén",
     "email": "akseli.palen@gmail.com"
   },
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "devDependencies": {
     "standard": "*"
   },
