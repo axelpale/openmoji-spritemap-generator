@@ -1,14 +1,24 @@
 # openmoji-spritemap-generator
 
-This lib generates merged spritemaps from OpenMoji emojis. A spritemap is an image that is composed from smaller images and where every small image has known position. Emoji spritemaps allow web developers to build emoji pickers by reducing number of individual images from hundreds to just a few, thus making web sites and apps load quickly.
+This lib generates merged sprite sheets from OpenMoji emojis. A sprite sheet is an image that is composed from smaller images and where every small image has known position. Emoji sprite sheets allow web developers to build emoji pickers by reducing number of individual images from hundreds to just a few, thus making web sites and apps load quickly.
 
-In addition to spritemaps, this lib generates a JSON data file that contains emoji positions in the spritemap. For quick development, the lib also generates an HTML image map snippet where the sprite map is represented by using map and area HTML tags.
+In addition to sprite sheets, this lib generates a JSON data file that contains emoji positions on the sheet. For quick development, the lib also generates an HTML image map snippet where the sheet is represented by using map and area HTML tags.
 
-![Smileys Emotion](doc/smileys-emotion.png)&nbsp; &nbsp;![Animals Nature](doc/animals-nature.png)
+## Example output
+
+![Smileys Emotion](doc/smileys-emotion-sample.png)&nbsp; &nbsp;![Animals Nature](doc/animals-nature-sample.png)
+
+Sprite sheets, HTML snippets, and JSON position data:
+- [smileys-emotion.png](doc/smileys-emotion.png)
+- [smileys-emotion.html](doc/smileys-emotion.html)
+- [smileys-emotion-sample.json](doc/smileys-emotion-sample.json)
+- [animals-nature.png](doc/animals-nature.png)
+- [animals-nature.html](doc/animals-nature.html)
+- [animals-nature-sample.json](doc/animals-nature-sample.json)
 
 ## Usage
 
-There is two intended ways to use the generator. The first is by installing it as a Node.js module into your project and commanding it via API. The second way is more standalone, and allows you to generate spritemaps without a host project.
+There is two intended ways to use the generator. The first is by installing it as a Node.js module into your project and commanding it via API. The second way is more standalone, and allows you to generate sprite sheets without a host project.
 
 Both ways require you to download the OpenMoji emojis and their associated metadata to your local machine. OpenMoji provides multiple alternative sets in different colors and sizes. Therefore it is up to you which emoji set to use. Use the following to download latest 72px wide emojis and their metadata.
 
@@ -44,7 +54,7 @@ Third, provide configuration object. See the API docs further below for details.
       console.log('Spritemap generated!')
     })
 
-Finally, admire the fresh spritemaps under `build/`!
+Finally, admire the fresh sprite sheets under `build/`!
 
 ## Usage as standalone project
 
@@ -57,34 +67,34 @@ Second, install dependencies (and the emojis, see above).
 
     $ npm install
 
-Third, modify the default configuration in `run.js` as you wish. The default behavior will first group the emojis by their group classes and then call `generate` for each group separately.
+Third, modify the default configuration in `run.js` as you wish. The default behaviour will first group the emojis by their group classes and then call `generate` for each group separately.
 
 Fourth, check your code for errors.
 
     $ npm test
 
-If code ok then run it. Multiple spritemaps will be generated under `spritemaps/`.
+If code ok then run it. Multiple sprite sheets will be generated under `spritemaps/`.
 
     $ npm start
 
-Finally, see the merged spritemaps and image map HTML under `spritemaps/`.
+Finally, see the merged sheets and image map HTML under `spritemaps/`.
 
 ## API
 
 ### generate(config, callback)
 
-Generates a spritemap image, a spritemap data JSON, and an image map HTML snippet. Takes in configuration object and a callback function. The callback is invoked after generation has finished and with `err` if an error occurred.
+Generates a sprite sheet image, a sprite data JSON, and an image map HTML snippet. Takes in configuration object and a callback function. The callback is invoked after generation has finished and with `err` if an error occurred.
 
 The configuration object `config` can take following options.
 
 - emojis: An array of emoji objects originating from openmoji.json. The order defines the order in the output.
-- name: A string. An unique name for this emoji set. Affects html classes and console output.
+- name: A string. A unique name for this emoji set. Affects html classes and console output.
 - emojiDir: A directory path to emoji images, downloaded from OpenMoji.
-- targetImagePath: A file path where to save the spritemap image.
+- targetImagePath: A file path where to save the sheet image.
 - targetHtmlPath: A file path where to save the image map html snippet.
 - targetJsonPath: A file path where to save the map data json.
 - emojiSize: An integer. The pixel width (=height) of emojis in emojiDir. Default is `72`.
-- columns: An integer. How many emojis to place on a single spritemap row. Default is `10`.
+- columns: An integer. How many emojis to place on a single sprite sheet row. Default is `10`.
 - rows: An integer. How many rows of emojis.
 - backgroundColor: A string, parsed by [color](https://www.npmjs.com/package/color). Transparent by default.
 
@@ -101,7 +111,7 @@ Happens at least on macOS 10.14 with Node 8.15 and Node 12.16 when there is more
 
 ## Licence
 
-The generated spritemaps are licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The source code is licensed under [MIT License](LICENSE).
+The generated sprite sheets are licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The source code is licensed under [MIT License](LICENSE).
 
 ## See also
 

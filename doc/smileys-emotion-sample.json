@@ -1,0 +1,75 @@
+{
+  "name": "smileys-emotion",
+  "width": 720,
+  "height": 936,
+  "emojiSize": 72,
+  "emojis": [
+    {
+      "emoji": {
+        "emoji": "😀",
+        "hexcode": "1F600",
+        "group": "smileys-emotion",
+        "subgroups": "face-smiling",
+        "annotation": "grinning face",
+        "tags": "face, grin",
+        "openmoji_tags": "smile, happy",
+        "openmoji_author": "Emily Jäger",
+        "openmoji_date": "2018-04-18",
+        "skintone": "",
+        "skintone_combination": "",
+        "skintone_base_emoji": "",
+        "skintone_base_hexcode": "",
+        "unicode": 1,
+        "order": 1
+      },
+      "top": 0,
+      "left": 0,
+      "index": 0
+    },
+    {
+      "emoji": {
+        "emoji": "😃",
+        "hexcode": "1F603",
+        "group": "smileys-emotion",
+        "subgroups": "face-smiling",
+        "annotation": "grinning face with big eyes",
+        "tags": "face, mouth, open, smile",
+        "openmoji_tags": "eyes, teeth",
+        "openmoji_author": "Emily Jäger",
+        "openmoji_date": "2018-04-18",
+        "skintone": "",
+        "skintone_combination": "",
+        "skintone_base_emoji": "",
+        "skintone_base_hexcode": "",
+        "unicode": 0.6,
+        "order": 2
+      },
+      "top": 0,
+      "left": 72,
+      "index": 1
+    },
+    {
+      "emoji": {
+        "emoji": "😄",
+        "hexcode": "1F604",
+        "group": "smileys-emotion",
+        "subgroups": "face-smiling",
+        "annotation": "grinning face with smiling eyes",
+        "tags": "eye, face, mouth, open, smile",
+        "openmoji_tags": "happy, teeth",
+        "openmoji_author": "Emily Jäger",
+        "openmoji_date": "2018-04-18",
+        "skintone": "",
+        "skintone_combination": "",
+        "skintone_base_emoji": "",
+        "skintone_base_hexcode": "",
+        "unicode": 0.6,
+        "order": 3
+      },
+      "top": 0,
+      "left": 144,
+      "index": 2
+    },
+    "... rest cut out to make preview possible ..."
+  ]
+}
