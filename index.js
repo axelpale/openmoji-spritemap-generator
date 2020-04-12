@@ -15,11 +15,11 @@ module.exports = (config, callback) => {
     // Source of emoji images, named by hexcode
     emojiDir: path.resolve(__dirname, 'openmoji-72x72-color'),
     // Where to store the resulting spritemap
-    targetImagePath: path.resolve(__dirname, 'spritemaps', 'emojis.png'),
+    targetImagePath: path.resolve(__dirname, 'emojis.png'),
     // Where to store the resulting image map html
-    targetHtmlPath: path.resolve(__dirname, 'spritemaps', 'emojis.html'),
+    targetHtmlPath: path.resolve(__dirname, 'emojis.html'),
     // Where to store the resulting map data json (for custom usage)
-    targetJsonPath: path.resolve(__dirname, 'spritemaps', 'emojis.json'),
+    targetJsonPath: path.resolve(__dirname, 'emojis.json'),
     // Pixel width=height of emoji on the spritemap
     emojiSize: 72,
     // Dimensions of the spritemap

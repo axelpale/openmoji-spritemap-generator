@@ -21,9 +21,9 @@ asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
   merge({
     emojis: mojiGroup,
     emojiDir: path.join(__dirname, 'openmoji-72x72-color'),
-    targetImagePath: path.join(__dirname, 'spritemaps', groupName + '.png'),
-    targetHtmlPath: path.join(__dirname, 'spritemaps', groupName + '.html'),
-    targetJsonPath: path.join(__dirname, 'spritemaps', groupName + '.json'),
+    targetImagePath: path.join(__dirname, 'target', groupName + '.png'),
+    targetHtmlPath: path.join(__dirname, 'target', groupName + '.html'),
+    targetJsonPath: path.join(__dirname, 'target', groupName + '.json'),
     emojiSize: 72,
     columns: 10,
     rows: 16,

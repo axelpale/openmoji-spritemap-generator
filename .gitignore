@@ -1,5 +1,5 @@
-spritemaps/*
-!spritemaps/.gitkeep
+target/*
+!target/.gitkeep
 openmoji-72x72-color/
 openmoji.json
 

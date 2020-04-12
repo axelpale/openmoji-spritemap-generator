@@ -73,11 +73,11 @@ Fourth, check your code for errors.
 
     $ npm test
 
-If code ok then run it. Multiple sprite sheets will be generated under `spritemaps/`.
+If code ok then run it. Multiple sprite sheets will be generated under `target/`.
 
     $ npm start
 
-Finally, see the merged sheets and image map HTML under `spritemaps/`.
+Finally, see the merged sheets and image map HTML under `target/`.
 
 ## API
 

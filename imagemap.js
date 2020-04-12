@@ -1,6 +1,6 @@
 module.exports = (composition, opts) => {
   const size = opts.size // width & height in px
-  const id = 'openmoji-spritemap-' + opts.groupName
+  const id = 'openmoji-spritesheet-' + opts.groupName
   let html = '<map name="' + id + '">\n'
 
   html += composition.reduce((acc, component) => {
