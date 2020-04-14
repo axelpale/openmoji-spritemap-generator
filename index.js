@@ -1,5 +1,6 @@
 const sharp = require('sharp')
 const imagemap = require('./lib/imagemap')
+const jsonMap = require('./lib/jsonMap')
 const path = require('path')
 const fs = require('fs')
 
@@ -103,21 +104,7 @@ module.exports = (config, callback) => {
 
         // Generate a data file for custom usage
         console.log('Generating JSON map data...')
-        const outputObj = {
-          name: config.name,
-          width: width,
-          height: height,
-          emojiSize: config.emojiSize,
-          emojis: composition.map(cmoji => {
-            return {
-              emoji: cmoji.moji,
-              top: cmoji.top,
-              left: cmoji.left,
-              index: cmoji.index
-            }
-          })
-        }
-        const outputJson = JSON.stringify(outputObj, null, '  ')
+        const outputJson = jsonMap(config, composition)
         fs.writeFile(config.targetJsonPath, outputJson, (errf) => {
           if (errf) {
             return callback(err)
