@@ -93,26 +93,24 @@ module.exports = (config, callback) => {
 
       // Generate a boilerplate html image map
       console.log('Generating HTML image map...')
-      const imagemapHtml = htmlMap(composition, {
+      const outputHtml = htmlMap(composition, {
         groupName: config.name,
         size: config.emojiSize
       })
-      fs.writeFile(config.targetHtmlPath, imagemapHtml, (errw) => {
-        if (errw) {
-          return callback(err)
-        }
 
-        // Generate a data file for custom usage
-        console.log('Generating JSON map data...')
-        const outputJson = jsonMap(config, composition)
-        fs.writeFile(config.targetJsonPath, outputJson, (errf) => {
-          if (errf) {
-            return callback(err)
-          }
-
-          // All success.
-          return callback()
-        })
+      // Generate a data file for custom usage
+      console.log('Generating JSON map data...')
+      const outputJson = jsonMap(composition, {
       })
+
+      try {
+        fs.writeFileSync(config.targetHtmlPath, outputHtml)
+        fs.writeFileSync(config.targetJsonPath, outputJson)
+      } catch (errw) {
+        return callback(errw)
+      }
+
+      // All success.
+      return callback()
     })
 }
