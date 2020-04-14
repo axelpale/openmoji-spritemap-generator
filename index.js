@@ -1,5 +1,5 @@
 const sharp = require('sharp')
-const imagemap = require('./lib/imagemap')
+const htmlMap = require('./lib/htmlMap')
 const jsonMap = require('./lib/jsonMap')
 const path = require('path')
 const fs = require('fs')
@@ -93,7 +93,7 @@ module.exports = (config, callback) => {
 
       // Generate a boilerplate html image map
       console.log('Generating HTML image map...')
-      const imagemapHtml = imagemap(composition, {
+      const imagemapHtml = htmlMap(composition, {
         groupName: config.name,
         size: config.emojiSize
       })
