@@ -1,5 +1,5 @@
 const sharp = require('sharp')
-const imagemap = require('./imagemap')
+const imagemap = require('./lib/imagemap')
 const path = require('path')
 const fs = require('fs')
 
