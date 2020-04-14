@@ -99,8 +99,13 @@ module.exports = (config, callback) => {
       })
 
       // Generate a data file for custom usage
-      console.log('Generating JSON map data...')
+      console.log('Generating JSON data sheet...')
       const outputJson = jsonMap(composition, {
+        groupName: config.name,
+        columns: config.columns,
+        rows: config.rows,
+        emojiSize: config.emojiSize
+      })
       })
 
       try {
