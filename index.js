@@ -2,6 +2,7 @@ const sharp = require('sharp')
 const htmlMap = require('./lib/htmlMap')
 const jsonMap = require('./lib/jsonMap')
 const styleMap = require('./lib/styleMap')
+const styleHtmlMap = require('./lib/styleHtmlMap')
 const path = require('path')
 const fs = require('fs')
 
@@ -117,10 +118,19 @@ module.exports = (config, callback) => {
         emojiSize: config.emojiSize
       })
 
+      // Generate css sprite sheet sample html
+      console.log('Generating CSS sprite sheet sample HTML...')
+      const outputCssHtml = styleHtmlMap(composition, {
+        cssSrc: path.basename(config.targetCssPath)
+      })
+
       try {
         fs.writeFileSync(config.targetHtmlPath, outputHtml)
         fs.writeFileSync(config.targetJsonPath, outputJson)
         fs.writeFileSync(config.targetCssPath, outputCss)
+
+        const cssHtmlPath = config.targetCssPath.replace(/\.css$/, '-css.html')
+        fs.writeFileSync(cssHtmlPath, outputCssHtml)
       } catch (errw) {
         return callback(errw)
       }
