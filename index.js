@@ -1,6 +1,7 @@
 const sharp = require('sharp')
 const htmlMap = require('./lib/htmlMap')
 const jsonMap = require('./lib/jsonMap')
+const styleMap = require('./lib/styleMap')
 const path = require('path')
 const fs = require('fs')
 
@@ -21,6 +22,8 @@ module.exports = (config, callback) => {
     targetHtmlPath: path.resolve(__dirname, 'emojis.html'),
     // Where to store the resulting map data json (for custom usage)
     targetJsonPath: path.resolve(__dirname, 'emojis.json'),
+    // Where to store the resulting css sprite sheet
+    targetCssPath: path.resolve(__dirname, 'emojis.css'),
     // Pixel width=height of emoji on the spritemap
     emojiSize: 72,
     // Dimensions of the spritemap
@@ -106,11 +109,18 @@ module.exports = (config, callback) => {
         rows: config.rows,
         emojiSize: config.emojiSize
       })
+
+      // Generate css sprite sheet
+      console.log('Generating CSS sprite sheet...')
+      const outputCss = styleMap(composition, {
+        imageUrl: path.basename(config.targetImagePath),
+        emojiSize: config.emojiSize
       })
 
       try {
         fs.writeFileSync(config.targetHtmlPath, outputHtml)
         fs.writeFileSync(config.targetJsonPath, outputJson)
+        fs.writeFileSync(config.targetCssPath, outputCss)
       } catch (errw) {
         return callback(errw)
       }

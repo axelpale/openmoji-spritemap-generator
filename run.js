@@ -24,6 +24,7 @@ asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
     targetImagePath: path.join(__dirname, 'target', groupName + '.png'),
     targetHtmlPath: path.join(__dirname, 'target', groupName + '.html'),
     targetJsonPath: path.join(__dirname, 'target', groupName + '.json'),
+    targetCssPath: path.join(__dirname, 'target', groupName + '.css'),
     emojiSize: 72,
     columns: 10,
     rows: 16,
