@@ -1,8 +1,8 @@
 # openmoji-spritemap-generator
 
-This lib generates merged sprite sheets from OpenMoji emojis. A sprite sheet is an image that is composed from smaller images and where every small image has known position. Emoji sprite sheets allow web developers to build emoji pickers by reducing number of individual images from hundreds to just a few, thus making web sites and apps load quickly.
+This lib generates merged sprite sheets from [OpenMoji](https://openmoji.org/) emojis. A sprite sheet is an image that is composed from smaller images and where every small image has a known position. Emoji sprite sheets allow web developers to build emoji pickers by reducing number of individual images from hundreds to just a few, thus making web sites and apps load quickly.
 
-In addition to sprite sheets, this lib generates a JSON data file that contains emoji positions on the sheet. For quick development, the lib also generates an HTML image map snippet where the sheet is represented by using map and area HTML tags.
+In addition to sprite sheet images, this lib generates a CSS, HTML, and JSON data files that each contains the emoji positions. The CSS uses a `background-position` method and the HTML represents the sheet with `<map>` and `<area>` tags. The JSON is targeted for custom usage. Pick the one that suits you the best.
 
 ## Example output
 
@@ -18,12 +18,14 @@ Sprite sheets, HTML snippets, and JSON position data:
 
 ## Usage
 
-There is two intended ways to use the generator. The first is by installing it as a Node.js module into your project and commanding it via API. The second way is more standalone, and allows you to generate sprite sheets without a host project.
+There is two intended ways to use the generator. The first is by installing it as a Node.js module into your own project and commanding it via API. The second way is more standalone, and allows you to generate sprite sheets without a host project.
 
-Both ways require you to download the OpenMoji emojis and their associated metadata to your local machine. OpenMoji provides multiple alternative sets in different colors and sizes. Therefore it is up to you which emoji set to use. Use the following to download latest 72px wide emojis and their metadata.
+Both ways require you to download the OpenMoji emojis and their associated metadata to your project directory. OpenMoji provides multiple alternative sets in different colors and sizes. Therefore it is up to you which emoji set to use. Use the following to download latest 72px wide colored emojis and their metadata.
 
     $ wget https://github.com/hfg-gmuend/openmoji/releases/latest/download/openmoji-72x72-color.zip
     $ wget https://github.com/hfg-gmuend/openmoji/raw/master/data/openmoji.json
+
+You need to unzip the emoji zip package and place the directory next to `openmoji.json`. You will give paths to these two in the next step.
 
 ## Usage via API
 
@@ -36,14 +38,15 @@ Second, include it in your source code with the emoji metadata:
     const generate = require('openmoji-spritemap-generator')
     const mojis = require('openmoji.json')
 
-Third, provide configuration object. See the API docs further below for details.
+Third, provide configuration object. You need to specify the path to the unzipped emoji directory and target paths for the generated files. See the API docs further below for details.
 
     generate({
       emojis: mojis.filter(moji => moji.group === 'animals-nature'),
       emojiDir: 'openmoji-72x72-color',
-      targetImagePath: 'build/animals-nature.png',
-      targetHtmlPath: 'build/animals-nature.html',
-      targetJsonPath: 'build/animals-nature.json',
+      targetImagePath: 'target/animals-nature.png',
+      targetHtmlPath: 'target/animals-nature.html',
+      targetJsonPath: 'target/animals-nature.json',
+      targetCssPath: 'target/animals-nature.css',
       emojiSize: 72,
       columns: 10,
       rows: 16,
@@ -54,7 +57,7 @@ Third, provide configuration object. See the API docs further below for details.
       console.log('Spritemap generated!')
     })
 
-Finally, admire the fresh sprite sheets under `build/`!
+Finally, admire the fresh sprite sheets under `target/`!
 
 ## Usage as standalone project
 
@@ -83,7 +86,7 @@ Finally, see the merged sheets and image map HTML under `target/`.
 
 ### generate(config, callback)
 
-Generates a sprite sheet image, a sprite data JSON, and an image map HTML snippet. Takes in configuration object and a callback function. The callback is invoked after generation has finished and with `err` if an error occurred.
+Generates a sprite sheet image, a CSS sheet, a sprite data JSON, and an image map HTML snippet. Takes in configuration object and a callback function. The callback is invoked after generation has finished and with `err` if an error occurred.
 
 The configuration object `config` can take following options.
 
@@ -91,8 +94,9 @@ The configuration object `config` can take following options.
 - name: A string. A unique name for this emoji set. Affects html classes and console output.
 - emojiDir: A directory path to emoji images, downloaded from OpenMoji.
 - targetImagePath: A file path where to save the sheet image.
-- targetHtmlPath: A file path where to save the image map html snippet.
-- targetJsonPath: A file path where to save the map data json.
+- targetHtmlPath: A file path where to save the image map HTML snippet.
+- targetJsonPath: A file path where to save the map data JSON.
+- targetCssPath: A file path where to save the sprite CSS.
 - emojiSize: An integer. The pixel width (=height) of emojis in emojiDir. Default is `72`.
 - columns: An integer. How many emojis to place on a single sprite sheet row. Default is `10`.
 - rows: An integer. How many rows of emojis.
