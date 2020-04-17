@@ -1,7 +1,9 @@
 {
   "name": "animals-nature",
+  "columns": 10,
+  "rows": 16,
   "width": 720,
-  "height": 936,
+  "height": 1152,
   "emojiSize": 72,
   "emojis": [
     {

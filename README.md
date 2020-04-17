@@ -8,13 +8,17 @@ In addition to sprite sheet images, this lib generates a CSS, HTML, and JSON dat
 
 ![Smileys Emotion](doc/smileys-emotion-sample.png)&nbsp; &nbsp;![Animals Nature](doc/animals-nature-sample.png)
 
-Sprite sheets, HTML snippets, and JSON position data:
+Sprite sheets, HTML snippets, CSS sprites, and JSON sprite data.
 - [smileys-emotion.png](doc/smileys-emotion.png)
 - [smileys-emotion.html](doc/smileys-emotion.html)
 - [smileys-emotion-sample.json](doc/smileys-emotion-sample.json)
+- [smileys-emotion.css](doc/smileys-emotion.css)
+- [smileys-emotion-css.html](doc/smileys-emotion-css.html)
 - [animals-nature.png](doc/animals-nature.png)
 - [animals-nature.html](doc/animals-nature.html)
 - [animals-nature-sample.json](doc/animals-nature-sample.json)
+- [animals-nature.css](doc/animals-nature.css)
+- [animals-nature-css.html](doc/animals-nature-css.html)
 
 ## Usage
 
