@@ -1,12 +1,19 @@
+// This runner is meant for customisation and to give an example of
+// how multiple sprite sheets can be created with a single command.
+//
 const mojis = require('./openmoji.json')
 const asyn = require('async')
 const merge = require('./index')
+const generateIndex = require('./lib/htmlIndex')
 const path = require('path')
+const fs = require('fs')
 
 // Filter out those with long hexcode, like skin tones.
+// TODO include skin tones and other variants in some way.
 const shortMojis = mojis.filter(moji => moji.hexcode.length <= 5)
 
-// Group by group name
+// Group emojis by their group name into an object.
+// Use the group names as keys.
 const mojiGroups = shortMojis.reduce((acc, moji) => {
   const groupName = moji.group
   if (!acc[groupName]) {
@@ -16,6 +23,8 @@ const mojiGroups = shortMojis.reduce((acc, moji) => {
   return acc
 }, {})
 
+// For each group, run sheet generator.
+// Sheet generation is asynchronous operation, thus @caolan/async is used.
 asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
   const mojiGroup = mojiGroups[groupName]
   merge({
@@ -34,7 +43,13 @@ asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
 }, (err) => {
   if (err) {
     console.error(err)
-  } else {
-    console.log('Finished successfully.')
+    return
   }
+
+  // Generate an index page to browse the generated sheets.
+  const indexHtml = generateIndex(mojiGroups)
+  const indexPath = path.join(__dirname, 'target', 'index.html')
+  fs.writeFileSync(indexPath, indexHtml)
+
+  console.log('Finished successfully.')
 })
