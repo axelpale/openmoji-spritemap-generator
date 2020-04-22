@@ -2,7 +2,7 @@
 
 This lib generates merged sprite sheets from [OpenMoji](https://openmoji.org/) emojis. A sprite sheet is an image that is composed from smaller images and where every small image has a known position. Emoji sprite sheets allow web developers to build emoji pickers by reducing number of individual images from hundreds to just a few, thus making web sites and apps load quickly.
 
-In addition to sprite sheet images, this lib generates a CSS, HTML, and JSON data files that each contains the emoji positions. The CSS uses a `background-position` method and the HTML represents the sheet with `<map>` and `<area>` tags. The JSON is targeted for custom usage. Pick the one that suits you the best.
+In addition to sprite sheet images, either PNG or SVG, this lib generates a CSS, HTML, and JSON data files that each contains the emoji positions. The CSS uses a `background-position` method and the HTML represents the sheet with `<map>` and `<area>` tags. The JSON is targeted for custom usage. Pick the one that suits you the best.
 
 ## Example output
 
@@ -24,7 +24,7 @@ Sprite sheets, HTML snippets, CSS sprites, and JSON sprite data.
 
 There is two intended ways to use the generator. The first is by installing it as a Node.js module into your own project and commanding it via API. The second way is more standalone, and allows you to generate sprite sheets without a host project.
 
-Both ways require you to download the OpenMoji emojis and their associated metadata to your project directory. OpenMoji provides multiple alternative sets in different colors and sizes. Therefore it is up to you which emoji set to use. Use the following to download latest 72px wide colored emojis and their metadata.
+Both ways require you to download the OpenMoji emojis and their associated metadata to your project directory. OpenMoji provides multiple alternative sets in different formats, colors and sizes. Therefore it is up to you which emoji set to use. Use the following to download latest 72px wide colored emojis and their metadata.
 
     $ wget https://github.com/hfg-gmuend/openmoji/releases/latest/download/openmoji-72x72-color.zip
     $ wget https://github.com/hfg-gmuend/openmoji/raw/master/data/openmoji.json
@@ -97,7 +97,7 @@ The configuration object `config` can take following options.
 - emojis: An array of emoji objects originating from openmoji.json. The order defines the order in the output.
 - name: A string. A unique name for this emoji set. Affects html classes and console output.
 - emojiDir: A directory path to emoji images, downloaded from OpenMoji.
-- targetImagePath: A file path where to save the sheet image.
+- targetImagePath: A file path where to save the sheet image. If emojiDir contains SVG images, then use the extension `.svg` and if PNG then `.png`.
 - targetHtmlPath: A file path where to save the image map HTML snippet.
 - targetJsonPath: A file path where to save the map data JSON.
 - targetCssPath: A file path where to save the sprite CSS.
