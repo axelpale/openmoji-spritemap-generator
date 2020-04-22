@@ -117,6 +117,10 @@ Additional notes:
 
 Happens at least on macOS 10.14 with Node 8.15 and Node 12.16 when there is more than 200 emojis to be merged. Cause unsure but has something to do with memory management. As a quick workaround, try to merge less emojis.
 
+## See also
+
+- [svg-sprite](https://www.npmjs.com/package/svg-sprite)
+
 ## Licence
 
 The generated sprite sheets are licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The source code is licensed under [MIT License](LICENSE).
