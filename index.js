@@ -1,4 +1,5 @@
 const composePng = require('./lib/composePng')
+const composeSvg = require('./lib/composeSvg')
 const htmlMap = require('./lib/htmlMap')
 const jsonMap = require('./lib/jsonMap')
 const styleMap = require('./lib/styleMap')
@@ -6,11 +7,18 @@ const styleHtmlMap = require('./lib/styleHtmlMap')
 const path = require('path')
 const fs = require('fs')
 
+const composers = {
+  png: composePng,
+  svg: composeSvg
+}
+
 module.exports = (config, callback) => {
   // Define default config
   config = Object.assign({
     // The selected set of emojis from openmoji.json
     emojis: [],
+    // Mode of operation
+    mode: 'png',
     // Source of emoji images, named by hexcode
     emojiDir: path.resolve(__dirname, 'openmoji-72x72-color'),
     // Where to store the resulting spritemap
@@ -32,14 +40,18 @@ module.exports = (config, callback) => {
     name: 'default-group'
   }, config)
 
+  // Compatible with upper case mode
+  config.mode = config.mode.toLowerCase()
+
   // All given emojis.
   const fullGroup = config.emojis
 
   // Create file path for each.
+  const extension = config.mode === 'svg' ? '.svg' : '.png'
   const fullPathGroup = fullGroup.map((moji, i) => {
     return {
       moji: moji, // For image map generation
-      input: path.join(config.emojiDir, moji.hexcode + '.png')
+      input: path.join(config.emojiDir, moji.hexcode + extension)
     }
   })
 
@@ -74,7 +86,7 @@ module.exports = (config, callback) => {
   const m = fullGroup.length
   console.log(`Merging ${n}/${m} images...`)
 
-  composePng(composition, config, (err) => {
+  composers[config.mode](composition, config, (err) => {
     if (err) {
       return callback(err)
     }
