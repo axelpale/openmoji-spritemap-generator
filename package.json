@@ -1,6 +1,6 @@
 {
   "name": "openmoji-spritemap-generator",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Generate sprite sheets from OpenMoji emojis",
   "keywords": [
     "sprite",
@@ -17,7 +17,8 @@
   "scripts": {
     "start": "node run.js",
     "lint": "standard '**/*.js' && echo OK",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "release": "npm test && npm publish"
   },
   "author": {
     "name": "Akseli Palén",
