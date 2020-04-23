@@ -42,20 +42,16 @@ Second, include it in your source code with the emoji metadata:
     const generate = require('openmoji-spritemap-generator')
     const mojis = require('openmoji.json')
 
-Third, provide configuration object. You need to specify the path to the unzipped emoji directory and target paths for the generated files. See the API docs further below for details.
+Third, provide configuration object. You need to specify the path to the unzipped emoji directory and target directory for the generated files. See the API docs further below for details.
 
     generate({
+      name: 'animals-nature',
       emojis: mojis.filter(moji => moji.group === 'animals-nature'),
       emojiDir: 'openmoji-72x72-color',
-      targetImagePath: 'target/animals-nature.png',
-      targetHtmlPath: 'target/animals-nature.html',
-      targetJsonPath: 'target/animals-nature.json',
-      targetCssPath: 'target/animals-nature.css',
+      targetDir: 'target',
       emojiSize: 72,
       columns: 10,
-      rows: 16,
-      backgroundColor: '#FFFFFF00',
-      name: 'animals-nature'
+      backgroundColor: '#FFFFFF00'
     }, (err) => {
       if (err) { throw err }
       console.log('Spritemap generated!')
@@ -94,21 +90,16 @@ Generates a sprite sheet image, a CSS sheet, a sprite data JSON, and an image ma
 
 The configuration object `config` can take following options.
 
+- name: A string. A unique name for this emoji set. Affects file prefixes, html classes, and console output.
 - emojis: An array of emoji objects originating from openmoji.json. The order defines the order in the output.
-- name: A string. A unique name for this emoji set. Affects html classes and console output.
-- emojiDir: A directory path to emoji images, downloaded from OpenMoji.
-- targetImagePath: A file path where to save the sheet image. If emojiDir contains SVG images, then use the extension `.svg` and if PNG then `.png`.
-- targetHtmlPath: A file path where to save the image map HTML snippet.
-- targetJsonPath: A file path where to save the map data JSON.
-- targetCssPath: A file path where to save the sprite CSS.
+- mode: Either 'png' or 'svg'. Do we merge PNG or SVG images. Default is 'png'.
+- emojiDir: A directory path to emoji images, either PNG or SVG downloaded from OpenMoji.
+- targetDir: A directory path where to save the generated files.
 - emojiSize: An integer. The pixel width (=height) of emojis in emojiDir. Default is `72`.
 - columns: An integer. How many emojis to place on a single sprite sheet row. Default is `10`.
-- rows: An integer. How many rows of emojis.
 - backgroundColor: A string, parsed by [color](https://www.npmjs.com/package/color). Transparent by default.
 
 Additional notes:
-- If `emojis` provide less emojis than what could fit the columns and rows, then the remaining places are filled with the background color.
-- If `emojis` provide more emojis than what could fit the columns and rows, then the extra emojis are left out and not rendered.
 - Resizing emojis is not currently supported. You must resize the emojis beforehand and provide matching `emojiSize`.
 
 ## Known problems

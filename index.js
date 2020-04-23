@@ -22,26 +22,27 @@ module.exports = (config, callback) => {
     // Source of emoji images, named by hexcode
     emojiDir: path.resolve(__dirname, 'openmoji-72x72-color'),
     // Where to store the resulting spritemap
-    targetImagePath: path.resolve(__dirname, 'emojis.png'),
-    // Where to store the resulting image map html
-    targetHtmlPath: path.resolve(__dirname, 'emojis.html'),
-    // Where to store the resulting map data json (for custom usage)
-    targetJsonPath: path.resolve(__dirname, 'emojis.json'),
-    // Where to store the resulting css sprite sheet
-    targetCssPath: path.resolve(__dirname, 'emojis.css'),
+    targetDir: __dirname,
+    // Unique name for this emoji set.
+    // Generated are prefixed with this name.
+    // Affects also console output and html classes.
+    name: 'default-group',
     // Pixel width=height of emoji on the spritemap
     emojiSize: 72,
-    // Dimensions of the spritemap
+    // Number of emojis on a row. Height is determined from the given emojis.
     columns: 10,
-    rows: 16,
     // Background color. Transparent by default.
-    backgroundColor: '#FFFFFF00',
-    // Unique name for this emoji set. Affects console output and html classes.
-    name: 'default-group'
+    backgroundColor: '#FFFFFF00'
   }, config)
 
-  // Compatible with upper case mode
+  // Compatible with upper case mode, e.g. 'SVG' or 'Png'
   config.mode = config.mode.toLowerCase()
+
+  // Determine the number of rows needed.
+  config.rows = Math.ceil(config.emojis.length / config.columns)
+
+  // Build non-existing base path where to append tags and file extension.
+  config.basePath = path.resolve(config.targetDir, config.name)
 
   // All given emojis.
   const fullGroup = config.emojis
@@ -66,12 +67,8 @@ module.exports = (config, callback) => {
     }
   })
 
-  // Limit the number of emojis to fit the spritemap dimensions.
-  // Too many emojis cause sharp to stack extra emojis in messy manner.
-  const limitedGroup = accessableGroup.slice(0, config.columns * config.rows)
-
   // Convert emojis to a sharp composition.
-  const composition = limitedGroup.map((pmoji, i) => {
+  const composition = accessableGroup.map((pmoji, i) => {
     return {
       moji: pmoji.moji, // Original emoji data for image map generation.
       input: pmoji.input,
@@ -114,12 +111,12 @@ module.exports = (config, callback) => {
       // CSS for SVG is created by svg-sprite in the composer.
       console.log('Generating CSS sprite sheet...')
       const outputCss = styleMap(composition, {
-        imageUrl: path.basename(config.targetImagePath),
+        imageUrl: config.name + '.png',
         emojiSize: config.emojiSize
       })
 
       try {
-        fs.writeFileSync(config.targetCssPath, outputCss)
+        fs.writeFileSync(config.basePath + '.css', outputCss)
       } catch (errw) {
         return callback(errw)
       }
@@ -128,15 +125,13 @@ module.exports = (config, callback) => {
     // Generate css sprite sheet sample html
     console.log('Generating CSS sprite sheet sample HTML...')
     const outputCssHtml = styleHtmlMap(composition, {
-      cssSrc: path.basename(config.targetCssPath)
+      cssSrc: config.name + '.css'
     })
 
     try {
-      fs.writeFileSync(config.targetHtmlPath, outputHtml)
-      fs.writeFileSync(config.targetJsonPath, outputJson)
-
-      const cssHtmlPath = config.targetCssPath.replace(/\.css$/, '-css.html')
-      fs.writeFileSync(cssHtmlPath, outputCssHtml)
+      fs.writeFileSync(config.basePath + '.html', outputHtml)
+      fs.writeFileSync(config.basePath + '.json', outputJson)
+      fs.writeFileSync(config.basePath + '-css.html', outputCssHtml)
     } catch (errw) {
       return callback(errw)
     }
