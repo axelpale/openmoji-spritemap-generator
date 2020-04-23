@@ -1,4 +1,5 @@
-const sharp = require('sharp')
+const composePng = require('./lib/composePng')
+const composeSvg = require('./lib/composeSvg')
 const htmlMap = require('./lib/htmlMap')
 const jsonMap = require('./lib/jsonMap')
 const styleMap = require('./lib/styleMap')
@@ -6,15 +7,18 @@ const styleHtmlMap = require('./lib/styleHtmlMap')
 const path = require('path')
 const fs = require('fs')
 
-// Disabling sharp cache might help to avoid "Bus error: 10"
-// when the number of images is high. This does only help, not prevent.
-sharp.cache(false)
+const composers = {
+  png: composePng,
+  svg: composeSvg
+}
 
 module.exports = (config, callback) => {
   // Define default config
   config = Object.assign({
     // The selected set of emojis from openmoji.json
     emojis: [],
+    // Mode of operation
+    mode: 'png',
     // Source of emoji images, named by hexcode
     emojiDir: path.resolve(__dirname, 'openmoji-72x72-color'),
     // Where to store the resulting spritemap
@@ -36,14 +40,18 @@ module.exports = (config, callback) => {
     name: 'default-group'
   }, config)
 
+  // Compatible with upper case mode
+  config.mode = config.mode.toLowerCase()
+
   // All given emojis.
   const fullGroup = config.emojis
 
   // Create file path for each.
+  const extension = config.mode === 'svg' ? '.svg' : '.png'
   const fullPathGroup = fullGroup.map((moji, i) => {
     return {
       moji: moji, // For image map generation
-      input: path.join(config.emojiDir, moji.hexcode + '.png')
+      input: path.join(config.emojiDir, moji.hexcode + extension)
     }
   })
 
@@ -78,64 +86,62 @@ module.exports = (config, callback) => {
   const m = fullGroup.length
   console.log(`Merging ${n}/${m} images...`)
 
-  const width = config.emojiSize * config.columns
-  const height = config.emojiSize * config.rows
-
-  sharp({
-    create: {
-      width: width,
-      height: height,
-      channels: 4,
-      background: config.backgroundColor
+  composers[config.mode](composition, config, (err) => {
+    if (err) {
+      return callback(err)
     }
-  }).composite(composition)
-    .toFile(config.targetImagePath, (err, info) => {
-      if (err) {
-        return callback(err)
-      }
-      console.log('Finished merging ' + config.name + '.')
 
-      // Generate a boilerplate html image map
-      console.log('Generating HTML image map...')
-      const outputHtml = htmlMap(composition, {
-        groupName: config.name,
-        size: config.emojiSize
-      })
+    console.log('Finished merging ' + config.name + '.')
 
-      // Generate a data file for custom usage
-      console.log('Generating JSON data sheet...')
-      const outputJson = jsonMap(composition, {
-        groupName: config.name,
-        columns: config.columns,
-        rows: config.rows,
-        emojiSize: config.emojiSize
-      })
+    // Generate a boilerplate html image map
+    console.log('Generating HTML image map...')
+    const outputHtml = htmlMap(composition, {
+      groupName: config.name,
+      size: config.emojiSize
+    })
 
-      // Generate css sprite sheet
+    // Generate a data file for custom usage
+    console.log('Generating JSON data sheet...')
+    const outputJson = jsonMap(composition, {
+      groupName: config.name,
+      columns: config.columns,
+      rows: config.rows,
+      emojiSize: config.emojiSize
+    })
+
+    if (config.mode === 'png') {
+      // Generate css sprite sheet for PNG map.
+      // CSS for SVG is created by svg-sprite in the composer.
       console.log('Generating CSS sprite sheet...')
       const outputCss = styleMap(composition, {
         imageUrl: path.basename(config.targetImagePath),
         emojiSize: config.emojiSize
       })
 
-      // Generate css sprite sheet sample html
-      console.log('Generating CSS sprite sheet sample HTML...')
-      const outputCssHtml = styleHtmlMap(composition, {
-        cssSrc: path.basename(config.targetCssPath)
-      })
-
       try {
-        fs.writeFileSync(config.targetHtmlPath, outputHtml)
-        fs.writeFileSync(config.targetJsonPath, outputJson)
         fs.writeFileSync(config.targetCssPath, outputCss)
-
-        const cssHtmlPath = config.targetCssPath.replace(/\.css$/, '-css.html')
-        fs.writeFileSync(cssHtmlPath, outputCssHtml)
       } catch (errw) {
         return callback(errw)
       }
+    }
 
-      // All success.
-      return callback()
+    // Generate css sprite sheet sample html
+    console.log('Generating CSS sprite sheet sample HTML...')
+    const outputCssHtml = styleHtmlMap(composition, {
+      cssSrc: path.basename(config.targetCssPath)
     })
+
+    try {
+      fs.writeFileSync(config.targetHtmlPath, outputHtml)
+      fs.writeFileSync(config.targetJsonPath, outputJson)
+
+      const cssHtmlPath = config.targetCssPath.replace(/\.css$/, '-css.html')
+      fs.writeFileSync(cssHtmlPath, outputCssHtml)
+    } catch (errw) {
+      return callback(errw)
+    }
+
+    // All success.
+    return callback()
+  })
 }

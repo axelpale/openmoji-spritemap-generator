@@ -37,7 +37,6 @@ asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
     emojiSize: 72,
     columns: 10,
     rows: 16,
-    backgroundColor: '#FFFFFF',
     name: groupName
   }, next)
 }, (err) => {

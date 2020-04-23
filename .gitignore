@@ -1,6 +1,6 @@
 target/*
 !target/.gitkeep
-openmoji-72x72-color/
+openmoji-*
 openmoji.json
 
 package-lock.json
