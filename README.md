@@ -42,7 +42,7 @@ Second, include it in your source code with the emoji metadata:
     const generate = require('openmoji-spritemap-generator')
     const mojis = require('openmoji.json')
 
-Third, provide configuration object. You need to specify the path to the unzipped emoji directory and target directory for the generated files. See the API docs further below for details.
+Third, provide configuration object. You need to specify the path to the unzipped emoji directory and target directory for the generated files. See the [API docs](#api) further below for details.
 
     generate({
       name: 'animals-nature',
