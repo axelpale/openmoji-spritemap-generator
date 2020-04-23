@@ -109,12 +109,21 @@ module.exports = (config, callback) => {
       emojiSize: config.emojiSize
     })
 
-    // Generate css sprite sheet
-    console.log('Generating CSS sprite sheet...')
-    const outputCss = styleMap(composition, {
-      imageUrl: path.basename(config.targetImagePath),
-      emojiSize: config.emojiSize
-    })
+    if (config.mode === 'png') {
+      // Generate css sprite sheet for PNG map.
+      // CSS for SVG is created by svg-sprite in the composer.
+      console.log('Generating CSS sprite sheet...')
+      const outputCss = styleMap(composition, {
+        imageUrl: path.basename(config.targetImagePath),
+        emojiSize: config.emojiSize
+      })
+
+      try {
+        fs.writeFileSync(config.targetCssPath, outputCss)
+      } catch (errw) {
+        return callback(errw)
+      }
+    }
 
     // Generate css sprite sheet sample html
     console.log('Generating CSS sprite sheet sample HTML...')
@@ -125,7 +134,6 @@ module.exports = (config, callback) => {
     try {
       fs.writeFileSync(config.targetHtmlPath, outputHtml)
       fs.writeFileSync(config.targetJsonPath, outputJson)
-      fs.writeFileSync(config.targetCssPath, outputCss)
 
       const cssHtmlPath = config.targetCssPath.replace(/\.css$/, '-css.html')
       fs.writeFileSync(cssHtmlPath, outputCssHtml)
