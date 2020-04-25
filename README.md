@@ -33,7 +33,7 @@ You need to unzip the emoji zip package and place the directory next to `openmoj
 
 ## Usage via API
 
-First, install the module into your project via NPM:
+First, install the module into your project via [NPM](https://www.npmjs.com/package/openmoji-spritemap-generator):
 
     $ npm install openmoji-spritemap-generator
 
