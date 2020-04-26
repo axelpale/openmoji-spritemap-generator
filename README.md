@@ -4,6 +4,8 @@ This lib generates merged sprite sheets from [OpenMoji](https://openmoji.org/) e
 
 In addition to sprite sheet images, either PNG or SVG, this lib generates a CSS, HTML, and JSON data files that each contains the emoji positions. The CSS uses a `background-position` method and the HTML represents the sheet with `<map>` and `<area>` tags. The JSON is targeted for custom usage. Pick the one that suits you the best.
 
+For pre-generated sprite sheets, see [openmoji-sprites](https://axelpale.github.io/openmoji-sprites/).
+
 ## Example output
 
 ![Smileys Emotion](doc/smileys-emotion-sample.png)&nbsp; &nbsp;![Animals Nature](doc/animals-nature-sample.png)
