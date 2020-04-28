@@ -2,6 +2,7 @@ const composePng = require('./lib/composePng')
 const composeSvg = require('./lib/composeSvg')
 const htmlMap = require('./lib/htmlMap')
 const jsonMap = require('./lib/jsonMap')
+const hexcodeMap = require('./lib/hexcodeMap')
 const styleMap = require('./lib/styleMap')
 const styleHtmlMap = require('./lib/styleHtmlMap')
 const path = require('path')
@@ -106,6 +107,10 @@ module.exports = (config, callback) => {
       emojiSize: config.emojiSize
     })
 
+    // Generate a hexcode index for quick copy-paste usage
+    console.log('Generating hexcode module...')
+    const outputHexcodeJs = hexcodeMap(composition)
+
     if (config.mode === 'png') {
       // Generate css sprite sheet for PNG map.
       // CSS for SVG is created by svg-sprite in the composer.
@@ -132,6 +137,7 @@ module.exports = (config, callback) => {
       fs.writeFileSync(config.basePath + '.html', outputHtml)
       fs.writeFileSync(config.basePath + '.json', outputJson)
       fs.writeFileSync(config.basePath + '-css.html', outputCssHtml)
+      fs.writeFileSync(config.basePath + '-hexcodes.js', outputHexcodeJs)
     } catch (errw) {
       return callback(errw)
     }
