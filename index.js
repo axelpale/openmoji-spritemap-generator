@@ -5,6 +5,7 @@ const jsonMap = require('./lib/jsonMap')
 const hexcodeMap = require('./lib/hexcodeMap')
 const styleMap = require('./lib/styleMap')
 const styleHtmlMap = require('./lib/styleHtmlMap')
+const mkdirp = require('mkdirp')
 const path = require('path')
 const fs = require('fs')
 
@@ -44,6 +45,9 @@ module.exports = (config, callback) => {
 
   // Build non-existing base path where to append tags and file extension.
   config.basePath = path.resolve(config.targetDir, config.name)
+
+  // Ensure the target dir exists
+  mkdirp.sync(config.targetDir)
 
   // All given emojis.
   const fullGroup = config.emojis
