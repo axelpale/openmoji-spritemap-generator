@@ -2,7 +2,7 @@
 
 This lib generates merged sprite sheets from [OpenMoji](https://openmoji.org/) emojis. A sprite sheet is an image that is composed from smaller images and where every small image has a known position. Emoji sprite sheets allow web developers to build emoji pickers by reducing number of individual images from hundreds to just a few, thus making web sites and apps load quickly.
 
-In addition to sprite sheet images, either PNG or SVG, this lib generates a CSS, HTML, and JSON data files that each contains the emoji positions. The CSS uses a `background-position` method and the HTML represents the sheet with `<map>` and `<area>` tags. The JSON is targeted for custom usage. Pick the one that suits you the best.
+In addition to sprite sheet images, either PNG or SVG, this lib generates a CSS, HTML, and JSON data files that each contains the emoji positions. The CSS uses [the background-position method](https://css-tricks.com/css-sprites/) and the HTML represents the sheet with `<map>` and `<area>` tags. The JSON is targeted for custom usage. Pick the one that suits you the best.
 
 For pre-generated sprite sheets, see [openmoji-sprites](https://axelpale.github.io/openmoji-sprites/).
 
@@ -23,6 +23,8 @@ Sprite sheets, HTML snippets, CSS sprites, and JSON sprite data.
 - [animals-nature-css.html](doc/animals-nature-css.html)
 
 ## Usage
+
+For instructions how to use the generated sheets, see [CSS Sprites article by CSS-Tricks](https://css-tricks.com/css-sprites/). For instructions how to use the generator, see below.
 
 There is two intended ways to use the generator. The first is by installing it as a Node.js module into your own project and commanding it via API. The second way is more standalone, and allows you to generate sprite sheets without a host project.
 
@@ -112,6 +114,7 @@ Happens at least on macOS 10.14 with Node 8.15, Node 10.20, and Node 12.16 when 
 
 ## See also
 
+- [CSS Sprites by CSS-Tricks](https://css-tricks.com/css-sprites/)
 - [OpenMoji.org](https://openmoji.org/)
 - [openmoji-sprites](https://axelpale.github.io/openmoji-sprites/)
 - [svg-sprite](https://www.npmjs.com/package/svg-sprite)
