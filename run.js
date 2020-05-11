@@ -8,6 +8,12 @@ const generateIndex = require('./lib/htmlIndex')
 const path = require('path')
 const fs = require('fs')
 
+const MODE = 'png' // out of { 'svg', 'png' }
+const EMOJI_DIR_NAME = {
+  png: 'openmoji-72x72-color',
+  svg: 'openmoji-svg-color'
+}
+
 // Filter out those with long hexcode, like skin tones.
 // TODO include skin tones and other variants in some way.
 const shortMojis = mojis.filter(moji => moji.hexcode.length <= 5)
@@ -33,10 +39,10 @@ Object.keys(mojiGroups).forEach(groupName => {
 asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
   const mojiGroup = mojiGroups[groupName]
   generate({
-    mode: 'png',
+    mode: MODE,
     name: groupName,
     emojis: mojiGroup,
-    emojiDir: path.join(__dirname, 'openmoji-72x72-color'),
+    emojiDir: path.join(__dirname, EMOJI_DIR_NAME[MODE]),
     targetDir: path.join(__dirname, 'target'),
     emojiSize: 72,
     columns: 8
@@ -49,7 +55,7 @@ asyn.eachSeries(Object.keys(mojiGroups), (groupName, next) => {
 
   // Generate an index page to browse the generated sheets.
   const indexHtml = generateIndex(mojiGroups, {
-    mode: 'png'
+    mode: MODE
   })
   const indexPath = path.join(__dirname, 'target', 'index.html')
   fs.writeFileSync(indexPath, indexHtml)
