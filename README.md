@@ -112,12 +112,10 @@ Happens at least on macOS 10.14 with Node 8.15, Node 10.20, and Node 12.16 when 
 
 ## See also
 
+- [OpenMoji.org](https://openmoji.org/)
+- [openmoji-sprites](https://axelpale.github.io/openmoji-sprites/)
 - [svg-sprite](https://www.npmjs.com/package/svg-sprite)
 
 ## Licence
 
 The generated sprite sheets are licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The source code is licensed under [MIT License](LICENSE).
-
-## See also
-
-- [OpenMoji.org](https://openmoji.org/)
