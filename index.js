@@ -99,6 +99,7 @@ module.exports = (config, callback) => {
     // Generate a boilerplate html image map
     console.log('Generating HTML image map...')
     const outputHtml = htmlMap(composition, {
+      mode: config.mode,
       groupName: config.name,
       size: config.emojiSize
     })
