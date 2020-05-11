@@ -108,7 +108,7 @@ Additional notes:
 
 ### Bus error: 10
 
-Happens at least on macOS 10.14 with Node 8.15 and Node 12.16 when there is more than 200 emojis to be merged. Cause unsure but has something to do with memory management. As a quick workaround, try to merge less emojis.
+Happens at least on macOS 10.14 with Node 8.15, Node 10.20, and Node 12.16 when there is more than 200 emojis to be merged. Cause unsure but has something to do with memory management. As a quick workaround, try to merge less emojis.
 
 ## See also
 
