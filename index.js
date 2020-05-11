@@ -93,7 +93,8 @@ module.exports = (config, callback) => {
       return callback(err)
     }
 
-    console.log('Finished merging ' + config.name + '.')
+    console.log('Finished merging ' + config.mode +
+      ' for ' + config.name + '.')
 
     // Generate a boilerplate html image map
     console.log('Generating HTML image map...')
