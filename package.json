@@ -15,7 +15,8 @@
     "url": "git://github.com/axelpale/openmoji-spritemap-generator.git"
   },
   "scripts": {
-    "start": "node run.js",
+    "start": "npm run generate",
+    "generate": "node run.js",
     "lint": "standard '**/*.js' && echo OK",
     "test": "npm run lint",
     "release": "npm test && npm publish"
